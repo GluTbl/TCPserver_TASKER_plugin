@@ -10,6 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,13 +26,17 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tvClientMsg, tvServerIP, tvServerPort;
-    private final int SERVER_PORT = 8080;
+    public static int SERVER_PORT = 8080;
     private String Server_Name = "Unbi";
     Button clear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences spref = getSharedPreferences("port", MODE_PRIVATE);
+        SERVER_PORT = spref.getInt("SERVER_PORT", 8080);
+
+
         setContentView(R.layout.activity_main);
         tvClientMsg = (TextView) findViewById(R.id.textViewClientMessage);
         tvServerIP = (TextView) findViewById(R.id.textViewServerIP);
@@ -104,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Log.d("LOG HERE","SETTING");
+            Intent intent = new Intent(getBaseContext(), setting.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -162,4 +172,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }
