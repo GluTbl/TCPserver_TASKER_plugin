@@ -6,14 +6,19 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.security.PublicKey;
 
-public class setting extends AppCompatActivity {
+import static com.unbi.tcpserver.MainActivity.booltoast;
+
+public class setting  extends AppCompatActivity implements View.OnClickListener {
 
     private TextView Port;
+    private Switch toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +26,35 @@ public class setting extends AppCompatActivity {
         setContentView(R.layout.setting);
         Port = (TextView) findViewById(R.id.port_setting);
         Port.setText(String.valueOf(MainActivity.SERVER_PORT));
+        toast=(Switch) findViewById(R.id.toast);
+        if(booltoast){toast.setChecked(true);}else{toast.setChecked(false);}
+        toast.setOnClickListener(this);
 
     }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.toast:{
+                boolean on = toast.isChecked();
+                if (on) {
+                    booltoast=true;
+                    Log.d("Toast","ON");
+
+                }else{
+                    booltoast=false;
+                    Log.d("Toast","OFF");
+                }
+                SharedPreferences spref = getSharedPreferences("port", MODE_PRIVATE);
+                SharedPreferences.Editor editor = spref.edit();
+                editor.putBoolean("booltoast", booltoast);
+                editor.apply();
+
+                break;
+            }
+    }
+    }
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {

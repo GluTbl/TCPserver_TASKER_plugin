@@ -11,8 +11,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,11 +25,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tvClientMsg, tvServerIP, tvServerPort;
     public static int SERVER_PORT = 8080;
     private String Server_Name = "Unbi";
+    public static  boolean booltoast;
+    public static String msg="";
     Button clear;
 
     @Override
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = getSharedPreferences("port", MODE_PRIVATE);
         SERVER_PORT = spref.getInt("SERVER_PORT", 8080);
+        booltoast=spref.getBoolean("booltoast",true);
 
 
         setContentView(R.layout.activity_main);
@@ -54,6 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        int mNotificationId = 001;
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getApplicationContext())
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle("Kanglei Iyek")
+                        .setContentText("Running.....")
+                        .setOngoing(true);
+        NotificationManager nmnger=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nmnger.notify(mNotificationId,mBuilder.build());
 
         new Thread(new Runnable() {
 
@@ -166,6 +182,20 @@ public class MainActivity extends AppCompatActivity {
            //TODO HERE IS THE MSG RECEIVED
             tvClientMsg.append(s+"\n");
             Log.d("LOG HERE",s+"\n");
+            msg=s;
+            Intent intent = new Intent();
+            intent.setAction("Intent.unbi.tcpserver.TCP_MSG");
+            intent.putExtra("tcpmsg", s);
+            sendBroadcast(intent);
+            runOnUiThread(new Runnable(){
+
+                @Override
+                public void run(){
+                    //update ui here
+                    // display toast here
+                    if(booltoast){Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();}
+                }
+            });
 
 
 
