@@ -38,11 +38,11 @@ public class setting  extends AppCompatActivity implements View.OnClickListener 
                 boolean on = toast.isChecked();
                 if (on) {
                     booltoast=true;
-                    Log.d("Toast","ON");
+//                    Log.d("Toast","ON");
 
                 }else{
                     booltoast=false;
-                    Log.d("Toast","OFF");
+//                    Log.d("Toast","OFF");
                 }
                 SharedPreferences spref = getSharedPreferences("port", MODE_PRIVATE);
                 SharedPreferences.Editor editor = spref.edit();
@@ -58,7 +58,7 @@ public class setting  extends AppCompatActivity implements View.OnClickListener 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Log.d(this.getClass().getName(), "back button pressed");
+//            Log.d(this.getClass().getName(), "back button pressed");
             String content = Port.getText().toString();
             if(Integer.valueOf(content)<65535&&Integer.valueOf(content)>0)
             {MainActivity.SERVER_PORT=Integer.valueOf(content);

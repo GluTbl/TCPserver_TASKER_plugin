@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                Log.d("LOG HERE","HERE1");
+
 
                 try {
                     ServerSocket socServer = new ServerSocket(SERVER_PORT);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
-        Log.d("LOG HERE","HERE2");
+
     }
 
     /**
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Log.d("LOG HERE","SETTING");
+//            Log.d("LOG HERE","SETTING");
             Intent intent = new Intent(getBaseContext(), setting.class);
             startActivity(intent);
             return true;
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     class ServerAsyncTask extends AsyncTask<Socket, Void, String> {
         @Override
         protected String doInBackground(Socket... params) {
-            Log.d("LOG HERE","SERVER CONNECTED");
+//            Log.d("LOG HERE","SERVER CONNECTED");
             //TODO Here is the server coonected
             String result = null;
             Socket mySocket = params[0];
@@ -167,11 +167,11 @@ public class MainActivity extends AppCompatActivity {
                 mySocket.close();
             } catch (IOException e) {
 
-                Log.d("LOG HERE","CLOSE ERROR");
+//                Log.d("LOG HERE","CLOSE ERROR");
             }
 
 
-            Log.d("LOG HERE","SERVER CLOSE");
+//            Log.d("LOG HERE","SERVER CLOSE");
             return result;
         }
 
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
            //TODO HERE IS THE MSG RECEIVED
             tvClientMsg.append(s+"\n");
-            Log.d("LOG HERE",s+"\n");
+//            Log.d("LOG HERE",s+"\n");
             msg=s;
             Intent intent = new Intent();
             intent.setAction("Intent.unbi.tcpserver.TCP_MSG");
