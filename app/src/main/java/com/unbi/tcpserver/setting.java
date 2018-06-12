@@ -1,5 +1,6 @@
 package com.unbi.tcpserver;
 
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -36,6 +37,10 @@ public class setting  extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.toast:{
                 boolean on = toast.isChecked();
+//                NotificationManager noti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                noti.cancel(001);
+
+
                 if (on) {
                     booltoast=true;
 //                    Log.d("Toast","ON");
