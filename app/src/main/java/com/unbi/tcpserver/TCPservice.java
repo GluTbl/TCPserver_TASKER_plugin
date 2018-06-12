@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.unbi.tcpserver.MainActivity.SERVER_PORT;
 import static com.unbi.tcpserver.MainActivity.booltoast;
@@ -58,7 +60,7 @@ public class TCPservice extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.d("LOG HERE","Intent");
+//        Log.d("LOG HERE","Intent");
         new Thread(new Runnable() {
 
             @Override
@@ -145,7 +147,7 @@ public class TCPservice extends Service {
             }
 
 
-            Log.d("LOG HERE","SERVER CLOSE");
+//            Log.d("LOG HERE","SERVER CLOSE");
             return result;
         }
 
@@ -155,12 +157,13 @@ public class TCPservice extends Service {
 
             //TODO HERE IS THE MSG RECEIVED
 
-            Log.d("LOG HERE",s+"\n");
+//            Log.d("LOG HERE",s+"\n");
+//            List<String> items = Arrays.asList("\\Q=:=\\E"));
+//            String o= items.get(0);
+//            String p= items.get(1);
+
             msg=s;
-            Intent intent = new Intent();
-            intent.setAction("Intent.unbi.tcpserver.TCP_MSG");
-            intent.putExtra("tcpmsg", s);
-            sendBroadcast(intent);
+            ArrayIntents(s);
             new Thread(){
                 public void run() {
                     Object result=null;
@@ -201,6 +204,38 @@ public class TCPservice extends Service {
 
         }
 
+    }
+
+//    tcppar()
+//    tcpcomm()
+
+    private  void ArrayIntents(String arg){
+        List<String> items= Arrays.asList(msg.split("=:="));
+        Intent intent = new Intent();
+        intent.setAction("Intent.unbi.tcpserver.TCP_MSG");
+
+        String par=items.get(0);
+        //items.remove(0);
+        intent.putExtra("tcppar", par);
+//        Log.d("tcppar",par);
+        List<String> tcppar=Arrays.asList(par.split(" "));
+        int i=0;
+        for (String nstr:tcppar){
+            i=i+1;
+//            Log.d("tcppar"+String.valueOf(i),nstr);
+            intent.putExtra("tcppar"+String.valueOf(i),nstr);
+        }
+
+        int n=0;
+        for(String str: items) {
+            n=n+1;
+            if(n>1){
+//            Log.d("tcpcomm"+String.valueOf(n-1)+"=",str);//Igot some error in removing array object so i am doing like this
+            intent.putExtra("tcpcomm"+String.valueOf(n-1), str);
+            }
+        }
+        intent.putExtra("tcpmsg", arg);
+        sendBroadcast(intent);
     }
 
 }

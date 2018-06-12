@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             if(intent.getAction()=="SERVICE"){
                 //HERE YOU WILL GET VALUES FROM BROADCAST THROUGH INTENT EDIT YOUR TEXTVIEW///////////
                 String receivedValue=intent.getStringExtra("MSG");
-                Log.d("LOCALINTENT",receivedValue);
+//                Log.d("LOCALINTENT",receivedValue);
                 tvClientMsg.append(receivedValue+"\n");
 
             }
