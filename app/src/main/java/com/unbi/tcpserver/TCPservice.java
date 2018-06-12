@@ -38,7 +38,7 @@ public class TCPservice extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
 
-        Log.d("LOG HERE","Intent");
+
 
 //        int mNotificationId = 001;
 //        NotificationCompat.Builder mBuilder =
@@ -51,6 +51,14 @@ public class TCPservice extends Service {
 //        nmnger.notify(mNotificationId,mBuilder.build());
 
 
+
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Log.d("LOG HERE","Intent");
         new Thread(new Runnable() {
 
             @Override
@@ -71,14 +79,6 @@ public class TCPservice extends Service {
             }
         }).start();
 
-
-
-
-    }
-
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
         showNotification();
         return START_STICKY;
     }
