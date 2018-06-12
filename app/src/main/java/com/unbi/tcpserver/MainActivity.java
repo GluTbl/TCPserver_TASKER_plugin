@@ -12,8 +12,10 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     public static  boolean booltoast;
     public static String msg="";
     Button clear;
+    IntentFilter intentFilter=new IntentFilter();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
 //        nmnger.notify(mNotificationId,mBuilder.build());
 
         startService(new Intent(this, TCPservice.class));
+
+        intentFilter.addAction("SERVICE");
+
+
 
 
 
@@ -207,5 +215,32 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
+
+    @Override
+    protected void onResume() {
+        registerReceiver(broadcastReceiver, intentFilter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        /** Receives the broadcast that has been fired */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction()=="SERVICE"){
+                //HERE YOU WILL GET VALUES FROM BROADCAST THROUGH INTENT EDIT YOUR TEXTVIEW///////////
+                String receivedValue=intent.getStringExtra("MSG");
+                Log.d("LOCALINTENT",receivedValue);
+                tvClientMsg.append(receivedValue+"\n");
+
+            }
+        }
+    };
 
 }

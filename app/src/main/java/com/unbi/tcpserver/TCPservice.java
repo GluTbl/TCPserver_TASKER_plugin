@@ -173,6 +173,11 @@ public class TCPservice extends Service {
                         public void run(){
                             //update ui here
                             // display toast here
+                            Intent i=new Intent();
+                            i.setAction("SERVICE");
+                            i.putExtra("MSG", msg);
+                            sendBroadcast(i);
+
                             if(booltoast){
                                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                         }
