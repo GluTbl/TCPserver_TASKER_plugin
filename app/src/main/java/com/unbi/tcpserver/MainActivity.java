@@ -65,44 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//
-//        int mNotificationId = 001;
-//        NotificationCompat.Builder mBuilder =
-//                new NotificationCompat.Builder(getApplicationContext())
-//                        .setSmallIcon(R.drawable.ic_stat_router)
-//                        .setContentTitle("TCP server")
-//                        .setContentText("Running.....")
-//                        .setOngoing(true);
-//        NotificationManager nmnger=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//        nmnger.notify(mNotificationId,mBuilder.build());
 
         startService(new Intent(this, TCPservice.class));
 
         intentFilter.addAction("SERVICE");
 
-
-
-
-
-//        new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//
-//
-//                try {
-//                    ServerSocket socServer = new ServerSocket(SERVER_PORT);
-//                    Socket socClient = null;
-//                    while (true) {
-//                        socClient = socServer.accept();
-//                        ServerAsyncTask serverAsyncTask = new ServerAsyncTask();
-//                        serverAsyncTask.execute(new Socket[] { socClient });
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
 
     }
 
@@ -147,74 +114,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    /**
-//     * AsyncTask which handles the commiunication with clients
-//     */
-//    class ServerAsyncTask extends AsyncTask<Socket, Void, String> {
-//        @Override
-//        protected String doInBackground(Socket... params) {
-////            Log.d("LOG HERE","SERVER CONNECTED");
-//            //TODO Here is the server coonected
-//            String result = null;
-//            Socket mySocket = params[0];
-//            try {
-//
-//                InputStream is = mySocket.getInputStream();
-//                PrintWriter out = new PrintWriter(mySocket.getOutputStream(),
-//                        true);
-//
-//                //out.println("Welcome to \""+Server_Name+"\" Server");
-//
-//                BufferedReader br = new BufferedReader(
-//                        new InputStreamReader(is));
-//
-//                result = br.readLine();
-//
-//                //mySocket.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            try {
-//                mySocket.close();
-//            } catch (IOException e) {
-//
-////                Log.d("LOG HERE","CLOSE ERROR");
-//            }
-//
-//
-////            Log.d("LOG HERE","SERVER CLOSE");
-//            return result;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//
-//           //TODO HERE IS THE MSG RECEIVED
-//            tvClientMsg.append(s+"\n");
-////            Log.d("LOG HERE",s+"\n");
-//            msg=s;
-//            Intent intent = new Intent();
-//            intent.setAction("Intent.unbi.tcpserver.TCP_MSG");
-//            intent.putExtra("tcpmsg", s);
-//            sendBroadcast(intent);
-//            runOnUiThread(new Runnable(){
-//
-//                @Override
-//                public void run(){
-//                    //update ui here
-//                    // display toast here
-//                    if(booltoast){Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();}
-//                }
-//            });
-//
-//
-//
-//        }
-//
-//    }
 
 
     @Override
