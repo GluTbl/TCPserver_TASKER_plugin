@@ -161,8 +161,12 @@ public class TCPservice extends Service {
 //            List<String> items = Arrays.asList("\\Q=:=\\E"));
 //            String o= items.get(0);
 //            String p= items.get(1);
-
-            msg=s;
+            if (s != null) {
+                msg = s;
+            } else {
+                s = "null";
+                msg = "null";
+            }
             ArrayIntents(s);
             new Thread(){
                 public void run() {
