@@ -1,4 +1,5 @@
 package com.unbi.tcpserver;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvClientMsg, tvServerIP, tvServerPort;
     public static int SERVER_PORT = 8080;
     private String Server_Name = "Unbi";
-    public static  boolean booltoast;
-    public static String msg="";
+    public static boolean booltoast;
+    public static String msg = "";
     Button clear;
-    IntentFilter intentFilter=new IntentFilter();
+    IntentFilter intentFilter = new IntentFilter();
+    Switch switchmsgme;
+    static Boolean boolshowmsg = false;
 
 
     @Override
@@ -45,32 +49,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = getSharedPreferences("port", MODE_PRIVATE);
         SERVER_PORT = spref.getInt("SERVER_PORT", 8080);
-        booltoast=spref.getBoolean("booltoast",true);
-
+        booltoast = spref.getBoolean("booltoast", true);
 
         setContentView(R.layout.activity_main);
+        switchmsgme = (Switch) findViewById(R.id.switchmsg);
+//        domsgswutch(switchmsgme, boolshowmsg);
+        if (boolshowmsg) {
+            switchmsgme.setChecked(true);
+        } else {
+            switchmsgme.setChecked(false);
+        }
+
+        switchmsgme.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchmsgme.isChecked()) {
+                    boolshowmsg = true;
+                } else {
+                    boolshowmsg = false;
+                }
+            }
+        });
         tvClientMsg = (TextView) findViewById(R.id.textViewClientMessage);
         tvServerIP = (TextView) findViewById(R.id.textViewServerIP);
         tvServerPort = (TextView) findViewById(R.id.textViewServerPort);
         tvServerPort.setText(Integer.toString(SERVER_PORT));
         getDeviceIpAddress();
-
-        clear = (Button)findViewById(R.id.button1);
+        clear = (Button) findViewById(R.id.button1);
         clear.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 tvClientMsg.setText("");
-
             }
         });
-
         startService(new Intent(this, TCPservice.class));
-
         intentFilter.addAction("SERVICE");
-
-
     }
 
     /**
@@ -78,13 +93,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void getDeviceIpAddress() {
         try {
-
             for (Enumeration<NetworkInterface> enumeration = NetworkInterface
-                    .getNetworkInterfaces(); enumeration.hasMoreElements();) {
+                    .getNetworkInterfaces(); enumeration.hasMoreElements(); ) {
                 NetworkInterface networkInterface = enumeration.nextElement();
                 for (Enumeration<InetAddress> enumerationIpAddr = networkInterface
                         .getInetAddresses(); enumerationIpAddr
-                             .hasMoreElements();) {
+                             .hasMoreElements(); ) {
                     InetAddress inetAddress = enumerationIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()
                             && inetAddress.getAddress().length == 4) {
@@ -119,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         registerReceiver(broadcastReceiver, intentFilter);
+        if (boolshowmsg) {
+            switchmsgme.setChecked(true);
+        } else {
+            switchmsgme.setChecked(false);
+        }
         super.onResume();
     }
 
@@ -132,14 +151,25 @@ public class MainActivity extends AppCompatActivity {
         /** Receives the broadcast that has been fired */
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction()=="SERVICE"){
+            if (intent.getAction() == "SERVICE") {
                 //HERE YOU WILL GET VALUES FROM BROADCAST THROUGH INTENT EDIT YOUR TEXTVIEW///////////
-                String receivedValue=intent.getStringExtra("MSG");
+                String receivedValue = intent.getStringExtra("MSG");
 //                Log.d("LOCALINTENT",receivedValue);
-                tvClientMsg.append(receivedValue+"\n");
-
+                if(boolshowmsg){tvClientMsg.append(receivedValue + "\n");}
             }
         }
     };
 
+
+
+    public static boolean ismsgshow(){
+        return boolshowmsg;
+    }
+//    public static void domsgswutch(Switch switchit, Boolean boolshow) {
+//        if (boolshow) {
+//            switchit.setChecked(true);
+//        } else {
+//            switchit.setChecked(false);
+//        }
+//    }
 }

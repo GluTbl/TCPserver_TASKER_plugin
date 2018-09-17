@@ -38,6 +38,9 @@
                 <action android:name="Intent.unbi.tcpSend.TCP_MSG" />
             </intent-filter>
             <intent-filter>
+                <action android:name="Intent.unbi.tcpSend.TCP_ID_MSG" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="Intent.unbi.tcpSend.AUTOREM" />
             </intent-filter>
         </receiver>

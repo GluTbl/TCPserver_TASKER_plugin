@@ -53,6 +53,25 @@ public class BootCompletedIntentReceiver extends BroadcastReceiver {
 //            pushIntent.putExtra("putInt#@###", "2");
             context.startService(pushIntent);
         }
+        else if("Intent.unbi.tcpSend.TCP_ID_MSG".equals(intent.getAction())){
+            Intent pushIntent = new Intent(context, TCPservice.class);
+            Bundle bundle = intent.getExtras();
+            Bundle newbundle=new Bundle();
+            newbundle.putInt("putInt#@###", 3);
+            pushIntent.putExtras(newbundle);
+            if (bundle != null) {
+                for (String key : bundle.keySet()) {
+                    Object value = bundle.get(key);
+//                    Log.d("TAG EXTRA", String.format("%s %s (%s)", key,
+//                            value.toString(), value.getClass().getName()));
+                    pushIntent.putExtra(key,value.toString());
+
+                }
+            }
+//            pushIntent.putExtra("putInt#@###", "2");
+            context.startService(pushIntent);
+        }
+
 
     }
 }

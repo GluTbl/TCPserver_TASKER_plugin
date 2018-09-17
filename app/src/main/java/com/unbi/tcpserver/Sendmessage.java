@@ -21,13 +21,27 @@ public class Sendmessage  {
         myNet = new Thread(stuff);
         myNet.start();
     }
+    public static void sendmsgid (Intent intent, TCPservice.doNetwork stuff ){
+
+        Log.d("LOG START HERE", "SimpleMsg");
+        String address=intent.getStringExtra("address");
+        String msgid=intent.getStringExtra("msgid");
+        String message=msgid+"=:="+intent.getStringExtra("message");
+        Thread myNet;
+        ipandport ipport=addresstoip(address);
+        stuff.ipport=ipport.port;
+        stuff.ipadress=ipport.ip;
+        stuff.message=message;
+        myNet = new Thread(stuff);
+        myNet.start();
+    }
 
     public static void sendmsgAutoRem (Intent intent,TCPservice.doNetwork stuff){
         Log.d("LOG START HERE", "Autoremote");
         String address=intent.getStringExtra("address");
         String msgid=intent.getStringExtra("msgid");
         String message=intent.getStringExtra("message");
-        message=autoremappend(message);
+        message=autoremappend(msgid+"=:="+message);
         Thread myNet;
         ipandport ipport=addresstoip(address);
         stuff.ipport=ipport.port;

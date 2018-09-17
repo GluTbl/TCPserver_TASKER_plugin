@@ -89,6 +89,11 @@ public class TCPservice extends Service {
                         doNetwork stuffarm = new doNetwork();
                         Sendmessage.sendmsgAutoRem(intent,stuffarm);
                         return START_STICKY;
+
+                    case 3:
+                        doNetwork stuffarmid = new doNetwork();
+                        Sendmessage.sendmsgid(intent,stuffarmid);
+                        return START_STICKY;
                 }
             }
         }
@@ -325,6 +330,7 @@ public class TCPservice extends Service {
                     mkmsg("received a message:\n" + str+"\n");
 
                     mkmsg("We are done, closing connection\n");
+                    out.flush();
                 } catch(Exception e) {
                     mkmsg("Error happened sending/receiving\n");
 
